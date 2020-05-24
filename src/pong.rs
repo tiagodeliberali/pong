@@ -15,8 +15,8 @@ use amethyst::{
 
 use crate::audio::initialise_audio;
 
-pub const BALL_VELOCITY_X: f32 = 37.0;
-pub const BALL_VELOCITY_Y: f32 = 25.0;
+pub const BALL_VELOCITY_X: f32 = 50.0;
+pub const BALL_VELOCITY_Y: f32 = 33.0;
 pub const BALL_RADIUS: f32 = 2.0;
 
 pub struct Ball {

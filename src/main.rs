@@ -11,12 +11,14 @@ use amethyst::{
     },
     utils::application_root_dir,
 };
+use amethyst::audio::DjSystemDesc;
 
 mod audio;
 mod pong;
 mod systems;
 
 use crate::pong::Pong;
+use crate::audio::Music;
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
@@ -45,6 +47,11 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(input_bundle)?
         .with_bundle(AudioBundle::default())?
         .with_bundle(UiBundle::<StringBindings>::new())?
+        .with_system_desc(
+            DjSystemDesc::new(|music: &mut Music| music.music.next()),
+            "dj_system",
+            &[],
+        )
         .with(systems::PaddleSystem, "paddle_system", &["input_system"])
         .with(systems::MoveBallsSystem, "ball_system", &[])
         .with(

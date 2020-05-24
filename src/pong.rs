@@ -5,13 +5,15 @@ use amethyst::{
     ecs::prelude::{Component, DenseVecStorage, Entity},
     prelude::*,
     renderer::{
-        camera::{Camera, Projection},
+        camera::{Camera},
         formats::texture::ImageFormat,
         sprite::{SpriteRender, SpriteSheet, SpriteSheetFormat},
         Texture,
     },
     ui::{Anchor, TtfFormat, UiText, UiTransform},
 };
+
+use crate::audio::initialise_audio;
 
 pub const BALL_VELOCITY_X: f32 = 37.0;
 pub const BALL_VELOCITY_Y: f32 = 25.0;
@@ -143,6 +145,7 @@ impl SimpleState for Pong {
         initialise_paddles(world, self.sprite_sheet_handle.clone().unwrap());
         initialise_camera(world);
         initialise_scoreboard(world);
+        initialise_audio(world);
     }
 
     fn update(&mut self, data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
@@ -244,12 +247,7 @@ fn initialise_scoreboard(world: &mut World) {
     let p2_score = world
         .create_entity()
         .with(p2_transform)
-        .with(UiText::new(
-            font, 
-            "0".to_string(),
-            [1., 1., 1., 1.], 
-            50.
-        ))
+        .with(UiText::new(font, "0".to_string(), [1., 1., 1., 1.], 50.))
         .build();
 
     world.insert(ScoreText { p1_score, p2_score });
